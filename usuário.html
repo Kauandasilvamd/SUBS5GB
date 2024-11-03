@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>usuário e senha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .chat-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .message, .centered-message {
+            background-color: #e0f7fa;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center; /* Centraliza o texto */
+            font-size: 16px;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        .copy-container {
+            display: none;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .pix-key {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .copy-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+        }
+        .upload-container, .email-container {
+            display: none;
+            margin: 10px 0;
+            flex-direction: column;
+            align-items: center;
+        }
+        #emailInput {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .send-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .file-label {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chatContainer">
+        <div id="messages"></div>
+        <div class="copy-container" id="copyContainer">
+            <span class="pix-key">69aef21b-5c67-4169-9ed2-144390596aca</span>
+            <button class="copy-button" onclick="copyPixKey()">Copiar Chave PIX</button>
+        </div>
+        <div class="upload-container" id="uploadContainer">
+            <label for="fileInput" class="file-label">Selecionar Comprovante</label>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="showUploadButton()">
+            <button class="send-button" id="uploadButton" style="display: none;" onclick="sendReceipt()">Enviar Comprovante</button>
+        </div>
+        <div class="email-container" id="emailContainer">
+            <input type="email" id="emailInput" placeholder="Digite seu e-mail">
+            <button class="send-button" onclick="sendEmail()">Enviar E-mail</button>
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            "Olá! Bem-vindo.",
+            "Estamos felizes em ter você aqui.",
+            "🔞 Descubra um mundo exclusivo! 🔞\n🔹 870GB de Vídeos Subzinhas 🔹\nConteúdo exclusivo para as 20 primeiras pessoas, variedade incrível de vídeos para todos os gostos.\n\n💾 O que você encontra?\n\n- videos gay\n- incesto\n- Subzinhas de todas as idades\n- atualização diária!",
+            "💸 Apenas R$10! Isso mesmo! Por um valor único, você leva uma quantidade imensa de conteúdo para se divertir por horas e horas!",
+            "🔑 Como adquirir:\nFaça um PIX de R$10 para nossa chave: [69aef21b-5c67-4169-9ed2-144390596aca].\nClique no botão abaixo para copiar a chave."
+        ];
+        
+        let messageIndex = 0;
+
+        function showMessage() {
+            if (messageIndex < messages.length) {
+                const messageDiv = document.createElement('div');
+                
+                // Usa a mesma classe para centralizar todas as mensagens
+                messageDiv.className = 'centered-message';
+
+                messageDiv.innerText = messages[messageIndex];
+                document.getElementById('messages').appendChild(messageDiv);
+
+                // Verifica se é a mensagem de instrução de PIX e exibe o botão de cópia
+                if (messageIndex === messages.length - 1) {
+                    setTimeout(() => {
+                        document.getElementById('copyContainer').style.display = 'flex';
+                    }, 1000);
+                }
+
+                messageIndex++;
+                setTimeout(showMessage, 2000);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('uploadContainer').style.display = 'flex';
+                }, 1000);
+            }
+        }
+
+        function copyPixKey() {
+            const pixKey = "69aef21b-5c67-4169-9ed2-144390596aca";
+            navigator.clipboard.writeText(pixKey).then(() => {
+                alert("Chave PIX copiada!");
+            });
+        }
+
+        function showUploadButton() {
+            document.getElementById('uploadButton').style.display = 'block';
+        }
+
+        function sendReceipt() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100%';
+                    img.style.borderRadius = '5px';
+
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.appendChild(img);
+                    document.getElementById('messages').appendChild(messageDiv);
+
+                    document.getElementById('uploadContainer').style.display = 'none';
+                    setTimeout(() => {
+                        addMessage("Envie seu e-mail para onde o admin deve mandar o link de acesso.");
+                        document.getElementById('emailContainer').style.display = 'flex';
+                    }, 1000);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                alert("Por favor, selecione um comprovante.");
+            }
+        }
+
+        function sendEmail() {
+            const email = document.getElementById('emailInput').value;
+            if (email) {
+                addMessage(`E-mail enviado: ${email}`);
+                document.getElementById('emailInput').value = '';
+                document.getElementById('emailContainer').style.display = 'none';
+                setTimeout(() => {
+                    addMessage("Os admins irão verificar o comprovante e mandar a senha e o usuário no seu e-mail.");
+                }, 1000);
+            } else {
+                alert("Por favor, digite seu e-mail.");
+            }
+        }
+
+        function addMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'centered-message'; // Centraliza todas as mensagens
+            messageDiv.innerText = text;
+            document.getElementById('messages').appendChild(messageDiv);
+        }
+
+        showMessage();
+    </script>
+</body>
+  </html>
